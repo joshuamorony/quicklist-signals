@@ -24,11 +24,13 @@ export class StorageService {
   storage = inject(LOCAL_STORAGE);
 
   loadChecklists() {
+    this.#checklistHasLoaded = true;
     const checklists = this.storage.getItem("checklists");
     return checklists ? JSON.parse(checklists) : [];
   }
 
   loadChecklistItems() {
+    this.#checklistItemsHasLoaded = true;
     const checklists = this.storage.getItem("checklistItems");
     return checklists ? JSON.parse(checklists) : [];
   }
