@@ -14,9 +14,9 @@ export const LOCAL_STORAGE = new InjectionToken<Storage>(
   }
 );
 
-Injectable({
+@Injectable({
   providedIn: "root",
-});
+})
 export class StorageService {
   #checklistHasLoaded = false;
   #checklistItemsHasLoaded = false;

@@ -1,9 +1,4 @@
-import {
-  Component,
-  ContentChild,
-  Input,
-  TemplateRef,
-} from "@angular/core";
+import { Component, ContentChild, Input, TemplateRef } from "@angular/core";
 import { Dialog } from "@angular/cdk/dialog";
 import { CommonModule } from "@angular/common";
 
@@ -14,12 +9,11 @@ import { CommonModule } from "@angular/common";
   template: ` <div></div> `,
 })
 export class ModalComponent {
-
   @Input() set isOpen(value: boolean) {
-    if(value){
-    this.dialog.open(this.template);
+    if (value) {
+      this.dialog.open(this.template);
     } else {
-    this.dialog.closeAll();
+      this.dialog.closeAll();
     }
   }
 

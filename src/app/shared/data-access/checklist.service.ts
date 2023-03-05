@@ -24,11 +24,11 @@ export class ChecklistService {
   }
 
   getChecklists() {
-    return this.checklists();
+    return computed(() => this.checklists());
   }
 
   getChecklistById(id: string) {
-    return computed(() => this.getChecklists().find((checklist) => checklist.id === id))
+    return computed(() => this.checklists().find((checklist) => checklist.id === id))
   }
 
   add(checklist: AddChecklist) {

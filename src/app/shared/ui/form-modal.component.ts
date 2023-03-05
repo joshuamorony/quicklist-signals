@@ -36,6 +36,7 @@ export class FormModalComponent {
   @Input() formGroup!: FormGroup;
 
   @Output() save = new EventEmitter<boolean>();
+  @Output() close = new EventEmitter<void>();
 
   constructor() {}
 
@@ -46,5 +47,6 @@ export class FormModalComponent {
 
   dismiss() {
     this.formGroup.reset();
+    this.close.emit();
   }
 }
