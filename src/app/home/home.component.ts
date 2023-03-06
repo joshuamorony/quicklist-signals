@@ -11,7 +11,7 @@ import { ChecklistListComponent } from "./ui/checklist-list.component";
   selector: "app-home",
   template: `
     <h1>Quicklists</h1>
-    <button (click)="formModalIsOpen$.set(true)">Add</button>
+    <button (click)="formModalIsOpen.set(true)">Add</button>
 
     <h2>Your checklists</h2>
     <app-checklist-list
@@ -20,15 +20,15 @@ import { ChecklistListComponent } from "./ui/checklist-list.component";
       (edit)="openEditModal($event)"
     ></app-checklist-list>
 
-    <app-modal [isOpen]="formModalIsOpen$()">
+    <app-modal [isOpen]="formModalIsOpen()">
       <ng-template>
         <app-form-modal
           title="test"
           [formGroup]="checklistForm"
           (close)="dismissModal()"
           (save)="
-            checklistIdBeingEdited$()
-              ? editChecklist(checklistIdBeingEdited$()!)
+            checklistIdBeingEdited()
+              ? editChecklist(checklistIdBeingEdited()!)
               : addChecklist()
           "
         ></app-form-modal>
@@ -43,8 +43,8 @@ import { ChecklistListComponent } from "./ui/checklist-list.component";
   ],
 })
 export default class HomeComponent {
-  formModalIsOpen$ = signal(false);
-  checklistIdBeingEdited$ = signal<string | null>(null);
+  formModalIsOpen = signal(false);
+  checklistIdBeingEdited = signal<string | null>(null);
 
   checklists = this.checklistService.getChecklists();
 
@@ -58,8 +58,8 @@ export default class HomeComponent {
   ) {}
 
   dismissModal() {
-    this.formModalIsOpen$.set(false);
-    this.checklistIdBeingEdited$.set(null);
+    this.formModalIsOpen.set(false);
+    this.checklistIdBeingEdited.set(null);
   }
 
   addChecklist() {
@@ -71,8 +71,8 @@ export default class HomeComponent {
       title: checklist.title,
     });
 
-    this.checklistIdBeingEdited$.set(checklist.id);
-    this.formModalIsOpen$.set(true);
+    this.checklistIdBeingEdited.set(checklist.id);
+    this.formModalIsOpen.set(true);
   }
 
   editChecklist(checklistId: string) {
