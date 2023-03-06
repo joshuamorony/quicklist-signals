@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { Checklist } from "../../shared/interfaces/checklist";
 
 @Component({
+  standalone: true,
   selector: "app-checklist-item-header",
   template: `
     <header>

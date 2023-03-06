@@ -18,7 +18,7 @@ import { ChecklistListComponent } from "./ui/checklist-list.component";
       [checklists]="checklists()"
       (delete)="deleteChecklist($event)"
       (edit)="openEditModal($event)"
-    ></app-checklist-list>
+    />
 
     <app-modal [isOpen]="formModalIsOpen()">
       <ng-template>

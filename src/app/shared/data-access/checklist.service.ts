@@ -1,10 +1,10 @@
-import { computed, effect, Injectable, signal } from '@angular/core';
-import { ChecklistItemService } from '../../checklist/data-access/checklist-item.service';
-import { AddChecklist, Checklist } from '../interfaces/checklist';
-import { StorageService } from './storage.service';
+import { computed, effect, Injectable, signal } from "@angular/core";
+import { ChecklistItemService } from "../../checklist/data-access/checklist-item.service";
+import { AddChecklist, Checklist } from "../interfaces/checklist";
+import { StorageService } from "./storage.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ChecklistService {
   private checklists = signal<Checklist[]>([]);
@@ -19,8 +19,8 @@ export class ChecklistService {
     this.checklists.set(checklists);
 
     effect(() => {
-      this.storageService.saveChecklists(this.checklists())
-    })
+      this.storageService.saveChecklists(this.checklists());
+    });
   }
 
   getChecklists() {
@@ -28,7 +28,17 @@ export class ChecklistService {
   }
 
   getChecklistById(id: string) {
-    return computed(() => this.checklists().find((checklist) => checklist.id === id))
+    return computed(() => {
+      const checklist = this.checklists().find(
+        (checklist) => checklist.id === id
+      );
+
+      if (!checklist) {
+        throw new Error("No checklist matching id");
+      }
+
+      return checklist;
+    });
   }
 
   add(checklist: AddChecklist) {
@@ -37,25 +47,29 @@ export class ChecklistService {
       id: this.generateSlug(checklist.title),
     };
 
-    this.checklists.mutate((checklists) => checklists.push(newChecklist))
+    this.checklists.mutate((checklists) => checklists.push(newChecklist));
   }
 
   remove(id: string) {
     this.checklistItemService.removeAllItemsForChecklist(id);
-    this.checklists.update((checklists) => checklists.filter((checklist) => checklist.id !== id))
+    this.checklists.update((checklists) =>
+      checklists.filter((checklist) => checklist.id !== id)
+    );
   }
 
   update(id: string, editedData: AddChecklist) {
-    this.checklists.update((checklists) => checklists.map((checklist) =>
-      checklist.id === id
-        ? { ...checklist, title: editedData.title }
-        : checklist
-    ))
+    this.checklists.update((checklists) =>
+      checklists.map((checklist) =>
+        checklist.id === id
+          ? { ...checklist, title: editedData.title }
+          : checklist
+      )
+    );
   }
 
   private generateSlug(title: string) {
     // NOTE: This is a simplistic slug generator and will not handle things like special characters.
-    let slug = title.toLowerCase().replace(/\s+/g, '-');
+    let slug = title.toLowerCase().replace(/\s+/g, "-");
 
     // Check if the slug already exists
     const matchingSlugs = this.checklists().find(
@@ -70,4 +84,3 @@ export class ChecklistService {
     return slug;
   }
 }
- 

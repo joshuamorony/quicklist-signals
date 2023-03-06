@@ -16,7 +16,7 @@ import { Checklist } from "src/app/shared/interfaces/checklist";
   template: `
     <ul>
       <li *ngFor="let checklist of checklists; trackBy: trackByFn">
-        <a routerLink="/checklists/{{ checklist.id }}">{{ checklist.title }}</a>
+        <a routerLink="/checklist/{{ checklist.id }}">{{ checklist.title }}</a>
         <button (click)="edit.emit(checklist)">Edit</button>
         <button (click)="delete.emit(checklist.id)">Delete</button>
       </li>
